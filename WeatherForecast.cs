@@ -1,4 +1,4 @@
-namespace DailyStyle;
+namespace Comp4870_DailyStyle;
 
 public class WeatherForecast
 {
