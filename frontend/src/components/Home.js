@@ -17,7 +17,7 @@ function Home() {
       .get(`${process.env.REACT_APP_BASE_URL}/user`, config)
       .then((res) => {
         const { status, data } = res.data;
-        if (status == 0) {
+        if (status === 0) {
           setUserInfo(data);
         } else {
           alert(data);

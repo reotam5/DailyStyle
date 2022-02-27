@@ -31,6 +31,9 @@ public class AuthFilterAttribute : FilterAttribute, IAsyncAuthorizationFilter
         }
         else
         {
+            if (user.CreatedAt < DateTime.Now.AddMinutes(-15)) {
+                context.Result = new UnauthorizedResult();
+            }
             //update user
             user.CreatedAt = DateTime.Now;
             await _userService.UpdateUser(user);
