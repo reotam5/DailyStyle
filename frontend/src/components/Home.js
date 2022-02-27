@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom"
+import { useNavigate  } from "react-router-dom"
 
 function Home() {
-  let history = useHistory();
+  let navigate = useNavigate();
   //sample code for using token
   const [userInfo, setUserInfo] = useState(null);
   useEffect(() => {
@@ -35,7 +35,7 @@ function Home() {
       ) : (
         <div>
           <p>You are not logged in</p>
-          <button onClick={()=>{history.push("/login")}}>Click here</button>
+          <button onClick={()=>{navigate("/login")}}>Click here</button>
         </div>
       )}
     </div>

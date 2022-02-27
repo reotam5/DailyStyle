@@ -1,11 +1,11 @@
 import { useState } from "react";
 import axios from 'axios';
-import { useHistory } from "react-router-dom"
+import { useNavigate  } from "react-router-dom"
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    let history = useHistory();
+    let navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +20,7 @@ function Login() {
                 var { token, userName } = data;
                 localStorage.setItem('token', token);
                 localStorage.setItem('userName', userName);
-                history.push("/");
+                navigate("/");
             } else {
                 alert(data);
             }
