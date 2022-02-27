@@ -1,4 +1,4 @@
-./backend/bin
-./backend/dist
-./backend/obj
-./backend/DailyStyle.db
+backend/bin/
+backend/dist/
+backend/obj/
+backend/DailyStyle.db
