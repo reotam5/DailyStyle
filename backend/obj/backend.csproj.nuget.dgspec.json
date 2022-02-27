@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\Comp4870-DailyStyle\\backend\\backend.csproj": {}
+    "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\forked\\Comp4870-DailyStyle\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\Comp4870-DailyStyle\\backend\\backend.csproj": {
+    "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\forked\\Comp4870-DailyStyle\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\Comp4870-DailyStyle\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\forked\\Comp4870-DailyStyle\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\Comp4870-DailyStyle\\backend\\backend.csproj",
+        "projectPath": "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\forked\\Comp4870-DailyStyle\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\reota\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\Comp4870-DailyStyle\\backend\\obj\\",
+        "outputPath": "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\forked\\Comp4870-DailyStyle\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\reota\\AppData\\Roaming\\NuGet\\NuGet.Config",
