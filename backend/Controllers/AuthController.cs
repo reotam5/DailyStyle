@@ -19,24 +19,24 @@ public class AuthController : Controller {
     [HttpPost]
     [Route("login")]
     public async Task<Dictionary<String, Object>> Login([FromBody] User user) {
-        User userFromDB = await _userService.GetUserByUserName(user.UserName);
-        if (userFromDB == null) {
-            return ResponseFormatter.buildError("User not found");
-        }
-        Console.WriteLine(user.Password);
-        if (userFromDB.Password != user.Password) {
-            return ResponseFormatter.buildError("Wrong password");
-        }
-        TokenGenerator.Token token = TokenGenerator.GenerateToken();
-        userFromDB.Token = token.token;
-        userFromDB.CreatedAt = token.CreatedAt;
+        // User userFromDB = await _userService.GetUserByUserName(user.UserName);
+        // if (userFromDB == null) {
+        //     return ResponseFormatter.buildError("User not found");
+        // }
+        // Console.WriteLine(user.Password);
+        // if (userFromDB.Password != user.Password) {
+        //     return ResponseFormatter.buildError("Wrong password");
+        // }
+        // TokenGenerator.Token token = TokenGenerator.GenerateToken();
+        // userFromDB.Token = token.token;
+        // userFromDB.CreatedAt = token.CreatedAt;
 
-        await _userService.UpdateUser(userFromDB);
+        // await _userService.UpdateUser(userFromDB);
 
-        //dont return password
-        userFromDB.Password = "********";
+        // //dont return password
+        // userFromDB.Password = "********";
 
-        return ResponseFormatter.buildSuccess(userFromDB);
+        return ResponseFormatter.buildSuccess("Login success");
     }
 
     [HttpPost]
