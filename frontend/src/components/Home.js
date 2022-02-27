@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom"
 
 function Home() {
+  let history = useHistory();
   //sample code for using token
   const [userInfo, setUserInfo] = useState(null);
   useEffect(() => {
@@ -33,7 +35,7 @@ function Home() {
       ) : (
         <div>
           <p>You are not logged in</p>
-          <button onClick={()=>{window.location.href = '/login';}}>Click here</button>
+          <button onClick={()=>{history.push("/login")}}>Click here</button>
         </div>
       )}
     </div>
