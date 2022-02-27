@@ -79,3 +79,14 @@ C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\obj\De
 C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\obj\Debug\net6.0\ref\backend.dll
 C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\Humanizer.dll
 C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\System.Web.Http.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\System.Web.Mvc.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\System.Web.Razor.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\System.Web.Helpers.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\System.Web.WebPages.Deployment.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\System.Web.WebPages.dll
+C:\Users\reota\Desktop\Intranet Planning 4870\Comp4870-DailyStyle\backend\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll

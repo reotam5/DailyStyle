@@ -9,15 +9,5 @@ public class DailyStyleDBContext : DbContext
     {
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<User>().HasData(
-            new User { Id = 1, UserName = "admin", Password = "admin" },
-            new User { Id = 2, UserName = "user", Password = "user" }
-        );
-    }
-
     public DbSet<User>? Users { get; set; }
 }

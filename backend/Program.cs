@@ -1,4 +1,6 @@
 using backend.Data;
+using backend.Filters;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -13,6 +16,15 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DailyStyleDBContext>(option=>{
     option.UseSqlite(connectionString);
+});
+builder.Services.AddScoped<UserService>();
+
+builder.Services.AddCors(option => {
+    option.AddPolicy("CorsPolicy", p => {
+        p.AllowAnyOrigin();
+        p.AllowAnyMethod();
+        p.AllowAnyHeader();
+    });
 });
 
 var app = builder.Build();
@@ -25,6 +37,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+app.UseCors();
 
 app.UseAuthorization();
 

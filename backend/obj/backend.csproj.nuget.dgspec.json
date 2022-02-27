@@ -14,12 +14,14 @@
         "outputPath": "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\Comp4870-DailyStyle\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\reota\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\reota\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,6 +40,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.Core": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
