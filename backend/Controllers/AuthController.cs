@@ -48,6 +48,9 @@ public class AuthController : Controller {
         if (user == null || user.UserName == null || user.Password == null) {
             return ResponseFormatter.buildError("invalid input. Make sure you have a UserName and Password");
         }
+        if (user.UserName.Length < 3 || user.Password.Length < 3) {
+            return ResponseFormatter.buildError("UserName and Password must be at least 3 characters long");
+        }
         User userFromDB = await _userService.GetUserByUserName(user.UserName);
         if (userFromDB != null) {
             return ResponseFormatter.buildError("UserName is taken");

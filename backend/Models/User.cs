@@ -21,4 +21,8 @@ public class User
     public DateTime? CreatedAt { get; set; }
 
     public string? Token { get; set; }
+
+    public ICollection<Clothing>? Clothings { get; set; }
+
+    public ICollection<Tag>? Tags { get; set; }
 }
