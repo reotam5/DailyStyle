@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using backend.Data;
 using backend.lib;
 using backend.Models;
@@ -19,46 +21,24 @@ public class AuthController : Controller {
     [HttpPost]
     [Route("login")]
     public async Task<Dictionary<String, Object>> Login([FromBody] User user) {
-        // User userFromDB = await _userService.GetUserByUserName(user.UserName);
-        // if (userFromDB == null) {
-        //     return ResponseFormatter.buildError("User not found");
-        // }
-        // Console.WriteLine(user.Password);
-        // if (userFromDB.Password != user.Password) {
-        //     return ResponseFormatter.buildError("Wrong password");
-        // }
-        // TokenGenerator.Token token = TokenGenerator.GenerateToken();
-        // userFromDB.Token = token.token;
-        // userFromDB.CreatedAt = token.CreatedAt;
-
-        // await _userService.UpdateUser(userFromDB);
-
-        // //dont return password
-        // userFromDB.Password = "********";
-
-        return ResponseFormatter.buildSuccess("Login success");
-    }
-
-    [HttpPost]
-    [Route("testUsingService")]
-    public async Task<Dictionary<String, Object>> asdf([FromBody] User user) {
         User userFromDB = await _userService.GetUserByUserName(user.UserName);
         if (userFromDB == null) {
-             return ResponseFormatter.buildError("User not found");
+            return ResponseFormatter.buildError("User not found");
         }
-
-        return ResponseFormatter.buildSuccess("Login success");
-    }
-
-    [HttpPost]
-    [Route("testUsingToken")]
-    public async Task<Dictionary<String, Object>> dddd([FromBody] User user) {
-
+        Console.WriteLine(user.Password);
+        if (userFromDB.Password != user.Password) {
+            return ResponseFormatter.buildError("Wrong password");
+        }
         TokenGenerator.Token token = TokenGenerator.GenerateToken();
-        var a = token.token;
-        var b = token.CreatedAt;
+        userFromDB.Token = token.token;
+        userFromDB.CreatedAt = token.CreatedAt;
 
-        return ResponseFormatter.buildSuccess(a);
+        await _userService.UpdateUser(userFromDB);
+
+        //dont return password
+        userFromDB.Password = "********";
+
+        return ResponseFormatter.buildSuccess(userFromDB);
     }
 
 

@@ -9,7 +9,7 @@ public class User
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     [Required]
     public string? UserName { get; set; }

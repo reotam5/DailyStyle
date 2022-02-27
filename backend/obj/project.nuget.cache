@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Aayg8UtvjEND7wmNKTabh5E9Ie+MNhY92btybSqAWdQbqvylZr3+fJeFM+MCJulwncKLThcEo86YnskFkXXXAg==",
+  "dgSpecHash": "74CrJUkUazi3jF1jV275GejdxQtlHowUij++IMbo0U5hoIRwH2X72Xx6ax4w70ih4DsF6eKLnEIQ26nNQqX4PQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\reota\\Desktop\\Intranet Planning 4870\\forked\\Comp4870-DailyStyle\\backend\\backend.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\reota\\.nuget\\packages\\entityframework\\5.0.0\\entityframework.5.0.0.nupkg.sha512",
     "C:\\Users\\reota\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\reota\\.nuget\\packages\\microsoft.aspnet.mvc\\5.2.7\\microsoft.aspnet.mvc.5.2.7.nupkg.sha512",
     "C:\\Users\\reota\\.nuget\\packages\\microsoft.aspnet.razor\\3.2.7\\microsoft.aspnet.razor.3.2.7.nupkg.sha512",
@@ -73,6 +74,7 @@
     "C:\\Users\\reota\\.nuget\\packages\\system.componentmodel.primitives\\4.3.0\\system.componentmodel.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\reota\\.nuget\\packages\\system.componentmodel.typeconverter\\4.3.0\\system.componentmodel.typeconverter.4.3.0.nupkg.sha512",
     "C:\\Users\\reota\\.nuget\\packages\\system.console\\4.3.0\\system.console.4.3.0.nupkg.sha512",
+    "C:\\Users\\reota\\.nuget\\packages\\system.data.entity.repository\\2.0.0.1\\system.data.entity.repository.2.0.0.1.nupkg.sha512",
     "C:\\Users\\reota\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
     "C:\\Users\\reota\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\reota\\.nuget\\packages\\system.diagnostics.tools\\4.3.0\\system.diagnostics.tools.4.3.0.nupkg.sha512",
@@ -135,6 +137,16 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
+      "message": "パッケージ 'EntityFramework 5.0.0' はプロジェクトのターゲット フレームワーク 'net6.0' ではなく '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' を使用して復元されました。このパッケージは、使用しているプロジェクトとの完全な互換性がない可能性があります。",
+      "libraryId": "EntityFramework",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
       "message": "パッケージ 'Microsoft.AspNet.Mvc 5.2.7' はプロジェクトのターゲット フレームワーク 'net6.0' ではなく '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' を使用して復元されました。このパッケージは、使用しているプロジェクトとの完全な互換性がない可能性があります。",
       "libraryId": "Microsoft.AspNet.Mvc",
       "targetGraphs": [
@@ -177,6 +189,16 @@
       "warningLevel": 1,
       "message": "パッケージ 'Microsoft.Web.Infrastructure 1.0.0' はプロジェクトのターゲット フレームワーク 'net6.0' ではなく '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' を使用して復元されました。このパッケージは、使用しているプロジェクトとの完全な互換性がない可能性があります。",
       "libraryId": "Microsoft.Web.Infrastructure",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "パッケージ 'System.Data.Entity.Repository 2.0.0.1' はプロジェクトのターゲット フレームワーク 'net6.0' ではなく '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' を使用して復元されました。このパッケージは、使用しているプロジェクトとの完全な互換性がない可能性があります。",
+      "libraryId": "System.Data.Entity.Repository",
       "targetGraphs": [
         "net6.0"
       ]
