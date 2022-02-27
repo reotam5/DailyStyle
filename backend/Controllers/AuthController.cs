@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using backend.Data;
 using backend.lib;
 using backend.Models;
@@ -38,6 +40,7 @@ public class AuthController : Controller {
 
         return ResponseFormatter.buildSuccess(userFromDB);
     }
+
 
     [HttpPost]
     [Route("register")]

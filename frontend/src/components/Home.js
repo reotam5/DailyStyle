@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate  } from "react-router-dom"
 
 function Home() {
+  let navigate = useNavigate();
   //sample code for using token
   const [userInfo, setUserInfo] = useState(null);
   useEffect(() => {
@@ -15,7 +17,7 @@ function Home() {
       .get(`${process.env.REACT_APP_BASE_URL}/user`, config)
       .then((res) => {
         const { status, data } = res.data;
-        if (status == 0) {
+        if (status === 0) {
           setUserInfo(data);
         } else {
           alert(data);
@@ -33,7 +35,7 @@ function Home() {
       ) : (
         <div>
           <p>You are not logged in</p>
-          <button onClick={()=>{window.location.href = '/login';}}>Click here</button>
+          <button onClick={()=>{navigate("/login")}}>Click here</button>
         </div>
       )}
     </div>
