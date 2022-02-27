@@ -26,6 +26,9 @@ function Login() {
         } else {
           toast.error(data);
         }
+      })
+      .catch((err)=>{
+        toast.error(err.message);
       });
     
   };
@@ -48,7 +51,10 @@ function Login() {
         } else {
           toast.error(data);
         }
-      });
+      })
+      .catch((err)=>{
+        toast.error(err.message);
+      });;
   };
 
   return (
