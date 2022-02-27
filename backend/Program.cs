@@ -13,11 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<UserService>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DailyStyleDBContext>(option=>{
     option.UseSqlite(connectionString);
 });
-builder.Services.AddScoped<UserService>();
 
 builder.Services.AddCors(option => {
     option.AddPolicy("CorsPolicy", p => {
