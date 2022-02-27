@@ -40,6 +40,29 @@ public class AuthController : Controller {
     }
 
     [HttpPost]
+    [Route("testUsingService")]
+    public async Task<Dictionary<String, Object>> asdf([FromBody] User user) {
+        User userFromDB = await _userService.GetUserByUserName(user.UserName);
+        if (userFromDB == null) {
+             return ResponseFormatter.buildError("User not found");
+        }
+
+        return ResponseFormatter.buildSuccess("Login success");
+    }
+
+    [HttpPost]
+    [Route("testUsingToken")]
+    public async Task<Dictionary<String, Object>> dddd([FromBody] User user) {
+
+        TokenGenerator.Token token = TokenGenerator.GenerateToken();
+        var a = token.token;
+        var b = token.CreatedAt;
+
+        return ResponseFormatter.buildSuccess(a);
+    }
+
+
+    [HttpPost]
     [Route("register")]
     public async Task<Dictionary<String, Object>> Register([FromBody] User user) {
         if (user == null || user.UserName == null || user.Password == null) {
