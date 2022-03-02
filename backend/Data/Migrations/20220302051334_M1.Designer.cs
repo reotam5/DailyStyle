@@ -11,7 +11,7 @@ using backend.Data;
 namespace backend.Data.Migrations
 {
     [DbContext(typeof(DailyStyleDBContext))]
-    [Migration("20220227223758_M1")]
+    [Migration("20220302051334_M1")]
     partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,20 @@ namespace backend.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Clothings");
+                });
+
+            modelBuilder.Entity("backend.Models.ClothingImage", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("BLOB");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClothingImage");
                 });
 
             modelBuilder.Entity("backend.Models.ClothingTag", b =>

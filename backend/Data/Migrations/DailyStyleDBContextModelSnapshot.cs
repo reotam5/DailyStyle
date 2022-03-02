@@ -42,6 +42,20 @@ namespace backend.Data.Migrations
                     b.ToTable("Clothings");
                 });
 
+            modelBuilder.Entity("backend.Models.ClothingImage", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("BLOB");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClothingImage");
+                });
+
             modelBuilder.Entity("backend.Models.ClothingTag", b =>
                 {
                     b.Property<int>("ClothingId")
