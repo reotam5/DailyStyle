@@ -11,18 +11,18 @@ namespace backend.Filters;
 
 public class AuthFilterAttribute : FilterAttribute, IAsyncAuthorizationFilter
 {
-    private UserService _userService;
+    private DailyStyleDBContext _context;
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
         //dependency injection
-        _userService = context.HttpContext.RequestServices.GetService(typeof(UserService)) as UserService;
+        _context = context.HttpContext.RequestServices.GetService(typeof(DailyStyleDBContext)) as DailyStyleDBContext;
 
         //get token from header
         context.HttpContext.Request.Headers.TryGetValue("token", out var token);
 
         //get user from token
-        User user = await _userService.GetUserByToken(token);
+        User user = await _context.GetUserByToken(token);
 
         //validating user
         if (user == null)
@@ -36,7 +36,7 @@ public class AuthFilterAttribute : FilterAttribute, IAsyncAuthorizationFilter
             }
             //update user
             user.CreatedAt = DateTime.Now;
-            await _userService.UpdateUser(user);
+            await _context.UpdateUser(user);
             context.HttpContext.Items.Add("user", user);
         }
 

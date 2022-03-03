@@ -18,8 +18,10 @@ public class Tag
 
     public string? Description { get; set; }
 
+    [JsonIgnore]
     [ForeignKey("UserId")]
     public User? User { get; set; }
 
+    [JsonIgnore]
     public ICollection<ClothingTag>? ClothingTags { get; set; }
 }

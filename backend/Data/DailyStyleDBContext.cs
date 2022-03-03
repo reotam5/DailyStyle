@@ -54,4 +54,28 @@ public class DailyStyleDBContext : DbContext
             }
         );
     }
+
+    public async Task<User?> GetUserByUserName(string userName)
+    {
+        return await Users.FirstOrDefaultAsync(u => u.UserName == userName);
+    }
+
+    public async Task<User?> GetUserByToken(string token)
+    {
+        return await Users.FirstOrDefaultAsync(u => u.Token == token);
+    }
+
+    public async Task UpdateUser(User user)
+    {
+        Users.Update(user);
+        await SaveChangesAsync();
+        return;
+    }
+
+    public async Task<User?> CreateUser(User user)
+    {
+        Users.Add(user);
+        await SaveChangesAsync();
+        return user;
+    }
 }

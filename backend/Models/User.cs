@@ -15,6 +15,7 @@ public class User
     public string? UserName { get; set; }
 
     [Required]
+    [JsonIgnore]
     public string? Password { get; set; }
 
     [JsonIgnore]
@@ -22,7 +23,9 @@ public class User
 
     public string? Token { get; set; }
 
+    [JsonIgnore]
     public ICollection<Clothing>? Clothings { get; set; }
 
+    [JsonIgnore]
     public ICollection<Tag>? Tags { get; set; }
 }

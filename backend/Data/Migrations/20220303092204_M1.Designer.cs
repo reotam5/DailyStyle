@@ -11,7 +11,7 @@ using backend.Data;
 namespace backend.Data.Migrations
 {
     [DbContext(typeof(DailyStyleDBContext))]
-    [Migration("20220227223758_M1")]
+    [Migration("20220303092204_M1")]
     partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace backend.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -118,9 +118,7 @@ namespace backend.Data.Migrations
                 {
                     b.HasOne("backend.Models.User", "User")
                         .WithMany("Clothings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

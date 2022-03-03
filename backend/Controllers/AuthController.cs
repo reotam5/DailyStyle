@@ -13,15 +13,18 @@ namespace backend.Controllers;
 [EnableCors("CorsPolicy")]
 public class AuthController : Controller {
 
-    private readonly UserService _userService;
-    public AuthController(UserService userService) {
-        _userService = userService;
-    }
+    private readonly DailyStyleDBContext _context;
+
+
+        public AuthController(DailyStyleDBContext context)
+        {
+            _context = context;
+        }
 
     [HttpPost]
     [Route("login")]
     public async Task<Dictionary<String, Object>> Login([FromBody] User user) {
-        User userFromDB = await _userService.GetUserByUserName(user.UserName);
+        User userFromDB = await _context.GetUserByUserName(user.UserName);
         if (userFromDB == null) {
             return ResponseFormatter.buildError("User not found");
         }
@@ -33,7 +36,7 @@ public class AuthController : Controller {
         userFromDB.Token = token.token;
         userFromDB.CreatedAt = token.CreatedAt;
 
-        await _userService.UpdateUser(userFromDB);
+        await _context.UpdateUser(userFromDB);
 
         //dont return password
         userFromDB.Password = "********";
@@ -51,7 +54,7 @@ public class AuthController : Controller {
         if (user.UserName.Length < 3 || user.Password.Length < 3) {
             return ResponseFormatter.buildError("UserName and Password must be at least 3 characters long");
         }
-        User userFromDB = await _userService.GetUserByUserName(user.UserName);
+        User userFromDB = await _context.GetUserByUserName(user.UserName);
         if (userFromDB != null) {
             return ResponseFormatter.buildError("UserName is taken");
         }
@@ -62,7 +65,7 @@ public class AuthController : Controller {
             Token = token.token,
             CreatedAt = token.CreatedAt
         };
-        await _userService.CreateUser(newUser);
+        await _context.CreateUser(newUser);
 
         //dont return password
         newUser.Password = "********";
