@@ -15,6 +15,7 @@ namespace backend.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    ImageType = table.Column<string>(type: "TEXT", nullable: true),
                     Image = table.Column<byte[]>(type: "BLOB", nullable: true)
                 },
                 constraints: table =>

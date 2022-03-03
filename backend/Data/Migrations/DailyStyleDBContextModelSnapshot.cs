@@ -51,6 +51,9 @@ namespace backend.Data.Migrations
                     b.Property<byte[]>("Image")
                         .HasColumnType("BLOB");
 
+                    b.Property<string>("ImageType")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("ClothingImage");

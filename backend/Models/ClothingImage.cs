@@ -11,5 +11,7 @@ public class ClothingImage
     [JsonIgnore]
     public int? Id { get; set; }
 
+    public string? ImageType {get; set;}
+
     public byte[]? Image { get; set; }
 }
