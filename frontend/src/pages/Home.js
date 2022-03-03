@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import { useNavigate  } from "react-router-dom"
 
 function Home() {
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    axios.defaults.baseURL = process.env.REACT_APP_LOCAL_BASE_URL;
+  } else {
+    axios.defaults.baseURL = process.env.REACT_APP_PRODUCTION_BASE_URL;
+  }
+
   let navigate = useNavigate();
   //sample code for using token
   const [userInfo, setUserInfo] = useState(null);
@@ -14,7 +20,7 @@ function Home() {
       },
     };
     axios
-      .get(`${process.env.REACT_APP_BASE_URL}/user`, config)
+      .get("/user", config)
       .then((res) => {
         const { status, data } = res.data;
         if (status === 0) {

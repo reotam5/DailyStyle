@@ -4,6 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 function Login() {
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    axios.defaults.baseURL = process.env.REACT_APP_LOCAL_BASE_URL;
+  } else {
+    axios.defaults.baseURL = process.env.REACT_APP_PRODUCTION_BASE_URL;
+  }
+
   let navigate = useNavigate();
   const usernameRef = useRef();
   const passwordRef = useRef();
@@ -15,7 +21,7 @@ function Login() {
       Password: passwordRef.current.value,
     };
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/auth/login`, data)
+      .post("/auth/login", data)
       .then((res) => {
         const { status, data } = res.data;
         if (status === 0) {
@@ -40,7 +46,7 @@ function Login() {
       Password: passwordRef.current.value,
     };
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/auth/register`, data)
+      .post("/auth/register", data)
       .then((res) => {
         const { status, data } = res.data;
         if (status === 0) {
