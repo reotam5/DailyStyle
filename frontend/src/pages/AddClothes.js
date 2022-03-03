@@ -1,64 +1,69 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import Login from "./Login";
+import { toast } from 'react-toastify';
+import { baseUrl } from "../lib/constant";
 
 function AddClothes() {
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-    axios.defaults.baseURL = process.env.REACT_APP_LOCAL_BASE_URL;
-  } else {
-    axios.defaults.baseURL = process.env.REACT_APP_PRODUCTION_BASE_URL;
-  }
+  axios.defaults.baseURL = baseUrl;
 
-  const [userInfo, setUserInfo] = useState(null);
+  const { getAccessTokenSilently } = useAuth0();
+
+  const [clothes, setClothes] = useState([]);
+  const getClothings = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await axios
+        .get("/api/clothings")
+        .then((response) => {
+          setClothes(response.data);
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const postClothings = async (e) => {
+    e.preventDefault();
+    try {
+      const token = await getAccessTokenSilently();
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await axios
+        .post("/api/clothings",{
+          "Title": document.getElementById("title").value,
+          "Description": document.getElementById("description").value,
+          "Image": document.getElementById("image").value,
+        })
+        .then((response) => {
+          setClothes(prev=>[...prev, response.data]);
+          console.log(clothes);
+          toast.success("Clothing added successfully");
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const config = {
-      headers: {
-        token: token,
-      },
-    };
-    axios
-      .get("/user", config)
-      .then((res) => {
-        const { status, data } = res.data;
-        if (status === 0) {
-          setUserInfo(data);
-          console.log(data)
-        } else {
-          alert(data);
-        }
-      });
+    getClothings();
   }, []);
-
-  const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log(document.getElementById("title").value);
-    const token = localStorage.getItem("token");
-    const config = {
-      headers: {
-        token: token,
-      },
-    };
-    axios.post("/api/clothings", {
-        Token: token,
-        Title: document.getElementById("title").value,
-        Description: document.getElementById("description").value,
-        Image: document.getElementById("image").value,
-    }, config)
-    .then((res) => {
-        console.log(res);
-    });
-  }
-
 
   return (
     <>
       <div>
         <h1>Add Clothes</h1>
         <div>{}</div>
-        <form className="flex flex-col" onSubmit={handleSubmit}>
-          <input type="text" placeholder="title" id="title"/>
-          <input type="text" placeholder="description" id="description"/>
-          <input type="text" placeholder="image" id="image"/>
+        <form className="flex flex-col" onSubmit={postClothings}>
+          <input type="text" placeholder="title" id="title" />
+          <input type="text" placeholder="description" id="description" />
+          <input type="text" placeholder="image" id="image" />
           <button>submit</button>
         </form>
       </div>
@@ -66,4 +71,6 @@ function AddClothes() {
   );
 }
 
-export default AddClothes;
+export default withAuthenticationRequired(AddClothes, {
+  onRedirecting: () => <Login />,
+});

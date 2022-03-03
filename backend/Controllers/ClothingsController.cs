@@ -9,13 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Cors;
-using backend.Filters;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [EnableCors("CorsPolicy")]
-    [AuthFilter]
+    [Authorize]
     [ApiController]
     public class ClothingsController : ControllerBase
     {
@@ -32,18 +33,12 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Clothing>> PostClothing(Dictionary<String, String> requestBody)
         {
-            var re = Request;
-            var headers = re.Headers;
-            headers.TryGetValue("token", out var Token);
-
             requestBody.TryGetValue("Title", out string Title);
             requestBody.TryGetValue("Description", out string Description);
             requestBody.TryGetValue("Image", out string Image);
 
-            User user = await _context.GetUserByToken(Token);
-
             Clothing clothing = new Clothing();
-            clothing.UserId = user.Id;
+            clothing.UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             clothing.Title = Title;
             clothing.Description = Description;
             clothing.Image = Convert.FromBase64String(Image);
@@ -61,29 +56,17 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Clothing>>> GetClothings()
         {
-            var re = Request;
-            var headers = re.Headers;
-            headers.TryGetValue("token", out var Token);
-
-            User user = await _context.GetUserByToken(Token);
-
-            return await _context.Clothings.Where(c=>c.UserId == user.Id).ToListAsync();
+            return await _context.Clothings.Where(c=>c.UserId == this.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToListAsync();
         }
 
         // GET: api/Clothings/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Clothing>> GetClothing(int? id)
         {
-            var re = Request;
-            var headers = re.Headers;
-            headers.TryGetValue("token", out var Token);
-
-            User user = await _context.GetUserByToken(Token);
-
             var clothing = await _context.Clothings.FindAsync(id);
 
             //if this clothing does not belong to the user, return a 404
-            if (clothing == null || clothing.UserId != user.Id)
+            if (clothing == null || clothing.UserId != this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
             {
                 return NotFound();
             }
@@ -97,16 +80,10 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClothing(int? id, Dictionary<String, String> requestBody)
         {
-            var re = Request;
-            var headers = re.Headers;
-            headers.TryGetValue("token", out var Token);
-
-            User user = await _context.GetUserByToken(Token);
-
             var oldClothing = await _context.Clothings.FindAsync(id);
 
             //if this clothing does not belong to the user, return a 404
-            if (oldClothing == null || oldClothing.UserId != user.Id)
+            if (oldClothing == null || oldClothing.UserId != this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
             {
                 return NotFound();
             }
@@ -145,16 +122,10 @@ namespace backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClothing(int? id)
         {
-            var re = Request;
-            var headers = re.Headers;
-            headers.TryGetValue("token", out var Token);
-
-            User user = await _context.GetUserByToken(Token);
-
             var oldClothing = await _context.Clothings.FindAsync(id);
 
             //if this clothing does not belong to the user, return a 404
-            if (oldClothing == null || oldClothing.UserId != user.Id)
+            if (oldClothing == null || oldClothing.UserId != this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
             {
                 return NotFound();
             }

@@ -1,42 +1,30 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate  } from "react-router-dom"
+import { useAuth0 } from "@auth0/auth0-react";
+import { baseUrl } from "../lib/constant";
 
 function Home() {
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    axios.defaults.baseURL = process.env.REACT_APP_LOCAL_BASE_URL;
-  } else {
-    axios.defaults.baseURL = process.env.REACT_APP_PRODUCTION_BASE_URL;
-  }
-
+  axios.defaults.baseURL = baseUrl;
   let navigate = useNavigate();
-  //sample code for using token
-  const [userInfo, setUserInfo] = useState(null);
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const config = {
-      headers: {
-        token: token,
-      },
-    };
-    axios
-      .get("/user", config)
-      .then((res) => {
-        const { status, data } = res.data;
-        if (status === 0) {
-          setUserInfo(data);
-        } else {
-          alert(data);
-        }
-      });
-  }, []);
+    if (isAuthenticated) {
+      console.log(user);
+    }
+  }, [isAuthenticated, user]);
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+  
   return (
     <div>
-      {userInfo ? (
+      {isAuthenticated ? (
         <div>
-          <p>Hello, {userInfo.userName}</p>
-          <p>Your password is {userInfo.password}</p>
-          <p>Your token is {userInfo.token}</p>
+          <p>Hello, {user.name}</p>
+          <button onClick={() => navigate("/addclothes")}>Add Clothes</button>
         </div>
       ) : (
         <div>
