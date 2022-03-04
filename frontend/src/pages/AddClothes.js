@@ -10,24 +10,6 @@ function AddClothes() {
 
   const { getAccessTokenSilently } = useAuth0();
 
-  const [clothes, setClothes] = useState([]);
-  const getClothings = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = await axios
-        .get("/api/clothings")
-        .then((response) => {
-          setClothes(response.data);
-        })
-        .catch((error) => {
-          toast.error(error.message);
-        });
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
   const postClothings = async (e) => {
     e.preventDefault();
     try {
@@ -72,5 +54,5 @@ function AddClothes() {
 }
 
 export default withAuthenticationRequired(AddClothes, {
-  onRedirecting: () => <Login />,
+  onRedirecting: () => <Login />
 });
