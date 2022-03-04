@@ -11,7 +11,7 @@ using backend.Data;
 namespace backend.Data.Migrations
 {
     [DbContext(typeof(DailyStyleDBContext))]
-    [Migration("20220304011757_M1")]
+    [Migration("20220304200220_M1")]
     partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,24 +37,12 @@ namespace backend.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool?>("isFavorite")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("Clothings");
-                });
-
-            modelBuilder.Entity("backend.Models.ClothingTag", b =>
-                {
-                    b.Property<int>("ClothingId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ClothingId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("ClothingTags");
                 });
 
             modelBuilder.Entity("backend.Models.Tag", b =>
@@ -62,9 +50,6 @@ namespace backend.Data.Migrations
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
@@ -78,33 +63,34 @@ namespace backend.Data.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("backend.Models.ClothingTag", b =>
+            modelBuilder.Entity("ClothingTag", b =>
                 {
-                    b.HasOne("backend.Models.Clothing", "Clothing")
-                        .WithMany("ClothingTags")
-                        .HasForeignKey("ClothingId")
+                    b.Property<int>("ClothingsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TagsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ClothingsId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("ClothingTag");
+                });
+
+            modelBuilder.Entity("ClothingTag", b =>
+                {
+                    b.HasOne("backend.Models.Clothing", null)
+                        .WithMany()
+                        .HasForeignKey("ClothingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.Tag", "Tag")
-                        .WithMany("ClothingTags")
-                        .HasForeignKey("TagId")
+                    b.HasOne("backend.Models.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Clothing");
-
-                    b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("backend.Models.Clothing", b =>
-                {
-                    b.Navigation("ClothingTags");
-                });
-
-            modelBuilder.Entity("backend.Models.Tag", b =>
-                {
-                    b.Navigation("ClothingTags");
                 });
 #pragma warning restore 612, 618
         }

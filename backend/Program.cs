@@ -1,6 +1,7 @@
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using backend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +63,33 @@ using (var scope = app.Services.CreateScope()) {
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<DailyStyleDBContext>();    
+    
+    Clothing c1 = new Clothing(){
+        Title = "T-shirt",
+        Description = "A T-shirt",
+        UserId = "dummy",
+    };
+
+    Clothing c2 = new Clothing(){
+        Title = "Jeans",
+        Description = "A pair of jeans",
+        UserId = "dummy",
+    };
+
+    context.AddRange(
+        new Tag() {
+            Title = "shirt",
+            Clothings = new List<Clothing>() { c1 },
+            UserId = "dummy",
+        },
+        new Tag() {
+            Title = "pants",
+            Clothings = new List<Clothing>() { c2 },
+            UserId = "dummy",
+        }
+    );
+    context.SaveChanges();
+    
     context.Database.Migrate();
 }
 

@@ -11,7 +11,7 @@ public class DailyStyleDBContext : DbContext
 
     public DbSet<Clothing>? Clothings { get; set; }
     public DbSet<Tag>? Tags { get; set; }
-    public DbSet<ClothingTag>? ClothingTags { get; set; }
+    //public DbSet<ClothingTag>? ClothingTags { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -26,17 +26,17 @@ public class DailyStyleDBContext : DbContext
         .Property(b => b.Id)
         .ValueGeneratedOnAdd();
 
-        builder.Entity<ClothingTag>()
-        .HasKey(t => new { t.ClothingId, t.TagId });
+        // builder.Entity<ClothingTag>()
+        // .HasKey(t => new { t.ClothingId, t.TagId });
 
-        builder.Entity<ClothingTag>()
-        .HasOne(pt => pt.Clothing)
-        .WithMany(p => p.ClothingTags)
-        .HasForeignKey(pt => pt.ClothingId);
+        // builder.Entity<ClothingTag>()
+        // .HasOne(pt => pt.Clothing)
+        // .WithMany(p => p.ClothingTags)
+        // .HasForeignKey(pt => pt.ClothingId);
 
-        builder.Entity<ClothingTag>()
-        .HasOne(pt => pt.Tag)
-        .WithMany(t => t.ClothingTags)
-        .HasForeignKey(pt => pt.TagId);
+        // builder.Entity<ClothingTag>()
+        // .HasOne(pt => pt.Tag)
+        // .WithMany(t => t.ClothingTags)
+        // .HasForeignKey(pt => pt.TagId);
     }
 }

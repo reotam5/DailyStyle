@@ -11,6 +11,9 @@ function ListClothes() {
   const { getAccessTokenSilently } = useAuth0();
 
   const [clothes, setClothes] = useState([]);
+  useEffect(()=>{
+    console.log(clothes)
+  },[clothes]);
   const getClothings = async () => {
     try {
       const token = await getAccessTokenSilently();
@@ -18,7 +21,7 @@ function ListClothes() {
       const response = await axios
         .get("/api/clothings")
         .then((response) => {
-          setClothes(response.data);
+          setClothes([...clothes, ...response.data]);
           console.log(clothes);
         })
         .catch((error) => {
@@ -39,17 +42,39 @@ function ListClothes() {
       {clothes.map((cloth) => (
         <ClothItem
           key={cloth.id}
+          id={cloth.id}
           title={cloth.title}
           description={cloth.description}
           image={cloth.image}
-          tags={[]}
+          tags={cloth.tags}
         />
       ))}
     </div>
   );
 }
 
-const ClothItem = ({ title, description, image, tags }) => {
+const ClothItem = ({ id, title, description, image, tags, isFavorite }) => {
+  const { getAccessTokenSilently } = useAuth0();
+  const [isFavoriteState, setIsFavoriteState] = useState(isFavorite);
+  const handleClick = async () => {
+    let newIsFavorite = !isFavoriteState;
+    try {
+      const token = await getAccessTokenSilently();
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await axios
+        .put("/api/clothings/fav/" + id, {
+          isFavorite: newIsFavorite,
+        })
+        .then((response) => {
+          setIsFavoriteState(newIsFavorite);
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <div className="ring-1 ring-slate-400 rounded-md m-4">
       <img src={image} />
@@ -57,8 +82,11 @@ const ClothItem = ({ title, description, image, tags }) => {
       <div>description: {description}</div>
       <div>tags:</div>
       {tags.map((tag) => (
-        <div key={tag}>tag: {tag}</div>
+        <div key={tag.title}>tag: {tag.title}</div>
       ))}
+        <button onClick={handleClick}>
+        {isFavoriteState ? "Remove from favourites" : "Add to favourites"}
+        </button>
     </div>
   );
 };

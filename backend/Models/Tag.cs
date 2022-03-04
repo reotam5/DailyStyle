@@ -16,8 +16,6 @@ public class Tag
 
     public string? Title { get; set; }
 
-    public string? Description { get; set; }
-
     [JsonIgnore]
-    public ICollection<ClothingTag>? ClothingTags { get; set; }
+    public ICollection<Clothing>? Clothings { get; set; }
 }

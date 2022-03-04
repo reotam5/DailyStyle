@@ -18,6 +18,7 @@ namespace backend.Data.Migrations
                     UserId = table.Column<string>(type: "TEXT", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
+                    isFavorite = table.Column<bool>(type: "INTEGER", nullable: true),
                     Image = table.Column<byte[]>(type: "BLOB", nullable: true)
                 },
                 constraints: table =>
@@ -32,8 +33,7 @@ namespace backend.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                    Title = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -41,39 +41,39 @@ namespace backend.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClothingTags",
+                name: "ClothingTag",
                 columns: table => new
                 {
-                    ClothingId = table.Column<int>(type: "INTEGER", nullable: false),
-                    TagId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ClothingsId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TagsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClothingTags", x => new { x.ClothingId, x.TagId });
+                    table.PrimaryKey("PK_ClothingTag", x => new { x.ClothingsId, x.TagsId });
                     table.ForeignKey(
-                        name: "FK_ClothingTags_Clothings_ClothingId",
-                        column: x => x.ClothingId,
+                        name: "FK_ClothingTag_Clothings_ClothingsId",
+                        column: x => x.ClothingsId,
                         principalTable: "Clothings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClothingTags_Tags_TagId",
-                        column: x => x.TagId,
+                        name: "FK_ClothingTag_Tags_TagsId",
+                        column: x => x.TagsId,
                         principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClothingTags_TagId",
-                table: "ClothingTags",
-                column: "TagId");
+                name: "IX_ClothingTag_TagsId",
+                table: "ClothingTag",
+                column: "TagsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ClothingTags");
+                name: "ClothingTag");
 
             migrationBuilder.DropTable(
                 name: "Clothings");
