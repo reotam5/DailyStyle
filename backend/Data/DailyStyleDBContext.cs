@@ -13,6 +13,8 @@ public class DailyStyleDBContext : DbContext
     public DbSet<Tag>? Tags { get; set; }
     //public DbSet<ClothingTag>? ClothingTags { get; set; }
 
+    public DbSet<ClothingImage> ClothingImage {get; set;}
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

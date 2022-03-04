@@ -10,6 +10,20 @@ namespace backend.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "ClothingImage",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ImageType = table.Column<string>(type: "TEXT", nullable: true),
+                    Image = table.Column<byte[]>(type: "BLOB", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClothingImage", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Clothings",
                 columns: table => new
                 {
@@ -72,6 +86,9 @@ namespace backend.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ClothingImage");
+
             migrationBuilder.DropTable(
                 name: "ClothingTag");
 
