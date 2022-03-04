@@ -51,7 +51,6 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Clothing>>> GetClothings()
         {
-            return await _context.Clothings.ToListAsync();
             return await _context.Clothings.Where(c=>c.UserId == this.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToListAsync();
         }
 
