@@ -11,7 +11,7 @@ using backend.Data;
 namespace backend.Data.Migrations
 {
     [DbContext(typeof(DailyStyleDBContext))]
-    [Migration("20220227223758_M1")]
+    [Migration("20220304011757_M1")]
     partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,12 +34,10 @@ namespace backend.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Clothings");
                 });
@@ -71,58 +69,13 @@ namespace backend.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("backend.Models.User", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Password = "pass",
-                            UserName = "admin"
-                        });
-                });
-
-            modelBuilder.Entity("backend.Models.Clothing", b =>
-                {
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany("Clothings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.ClothingTag", b =>
@@ -144,17 +97,6 @@ namespace backend.Data.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("backend.Models.Tag", b =>
-                {
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany("Tags")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("backend.Models.Clothing", b =>
                 {
                     b.Navigation("ClothingTags");
@@ -163,13 +105,6 @@ namespace backend.Data.Migrations
             modelBuilder.Entity("backend.Models.Tag", b =>
                 {
                     b.Navigation("ClothingTags");
-                });
-
-            modelBuilder.Entity("backend.Models.User", b =>
-                {
-                    b.Navigation("Clothings");
-
-                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

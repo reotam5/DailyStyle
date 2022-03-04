@@ -12,14 +12,12 @@ public class Tag
     public int? Id { get; set; }
 
     [Required]
-    public int UserId { get; set; }
+    public string? UserId { get; set; }
 
     public string? Title { get; set; }
 
     public string? Description { get; set; }
 
-    [ForeignKey("UserId")]
-    public User? User { get; set; }
-
+    [JsonIgnore]
     public ICollection<ClothingTag>? ClothingTags { get; set; }
 }

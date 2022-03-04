@@ -1,17 +1,14 @@
 #nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     public class ClothingTagsController : ControllerBase
     {

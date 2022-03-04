@@ -71,6 +71,14 @@ const Drawer = () => {
                 <i className="text-lg leading-lg text-black opacity-75"></i><span className="ml-2">Add Clothes</span>
               </div>
             </li>
+            <li className="nav-item nav-item border-b-2 border-black">
+              <div
+                onClick={()=>{navigate("/ListClothes")}}
+                className="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-black hover:opacity-75"
+              >
+                <i className="text-lg leading-lg text-black opacity-75"></i><span className="ml-2">List of Clothes</span>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
@@ -84,3 +92,4 @@ export default Drawer
 
 
 
+// export default Drawer;

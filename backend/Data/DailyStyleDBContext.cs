@@ -9,7 +9,6 @@ public class DailyStyleDBContext : DbContext
     {
     }
 
-    public DbSet<User>? Users { get; set; }
     public DbSet<Clothing>? Clothings { get; set; }
     public DbSet<Tag>? Tags { get; set; }
     public DbSet<ClothingTag>? ClothingTags { get; set; }
@@ -18,9 +17,6 @@ public class DailyStyleDBContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.Entity<User>()
-        .Property(b => b.Id)
-        .ValueGeneratedOnAdd();
 
         builder.Entity<Clothing>()
         .Property(b => b.Id)
@@ -42,16 +38,5 @@ public class DailyStyleDBContext : DbContext
         .HasOne(pt => pt.Tag)
         .WithMany(t => t.ClothingTags)
         .HasForeignKey(pt => pt.TagId);
-
-
-        builder.Entity<User>()
-        .HasData(
-            new User
-            {
-                Id = 1,
-                UserName = "admin",
-                Password = "pass",
-            }
-        );
     }
 }

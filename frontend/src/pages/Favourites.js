@@ -1,13 +1,10 @@
-import React from "react";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
+import Login from "./Login";
 
-
-function Favourite() {
-    return(
-        <>
-<p>Favourites</p>
-</>
-    );
-
+function Favourites() {
+    return (<>This is favorite</>);
 }
 
-export default Favourite
+export default withAuthenticationRequired(Favourites, {
+    onRedirecting: () => <Login />,
+});

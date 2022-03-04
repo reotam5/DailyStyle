@@ -1,36 +1,19 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useNavigate  } from "react-router-dom"
+import { useAuth0 } from "@auth0/auth0-react";
+import { baseUrl } from "../lib/constant";
 
 function Home() {
+  axios.defaults.baseURL = baseUrl;
   let navigate = useNavigate();
-  //sample code for using token
-  const [userInfo, setUserInfo] = useState(null);
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const config = {
-      headers: {
-        token: token,
-      },
-    };
-    axios
-      .get(`${process.env.REACT_APP_BASE_URL}/user`, config)
-      .then((res) => {
-        const { status, data } = res.data;
-        if (status === 0) {
-          setUserInfo(data);
-        } else {
-          alert(data);
-        }
-      });
-  }, []);
+  const { user, isAuthenticated } = useAuth0();
+  
   return (
     <div>
-      {userInfo ? (
+      {isAuthenticated ? (
         <div>
-          <p>Hello, {userInfo.userName}</p>
-          <p>Your password is {userInfo.password}</p>
-          <p>Your token is {userInfo.token}</p>
+          <p>Hello, {user.name}</p>
+          <button onClick={() => navigate("/addclothes")}>Add Clothes</button>
         </div>
       ) : (
         <div>

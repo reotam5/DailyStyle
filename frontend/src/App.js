@@ -4,8 +4,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Drawer from "./components/Drawer";
 import Favourite from "./pages/Favourites";
-import EditClothes from "./pages/EditOutfits";
-import ListNewClothes from "./pages/ListClothes";
+import EditCloth from "./pages/EditCloth";
+import ListClothes from "./pages/ListClothes";
 import AddNewClothes from "./pages/AddClothes";
 import { ToastContainer } from 'react-toastify';
 import './index.css';
@@ -21,8 +21,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/Favourites" element={<Favourite/>} />
         <Route path="/AddClothes" element={<AddNewClothes/>} />
-        <Route path="/ListClothes" element={<ListNewClothes/>} />
-        <Route path="/EditOutfits" element={<EditClothes/>} />
+        <Route path="/ListClothes" element={<ListClothes/>} />
+        <Route path="/EditCloth" element={<EditCloth/>} />
       </Routes>
     </div>
   );
