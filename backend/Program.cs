@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Console.WriteLine("Hello World!");
+Console.WriteLine($"https://{builder.Configuration["Auth0:Domain"]}/");
+Console.WriteLine($"{builder.Configuration["Auth0:Audience"]}/");
 
 builder.Services.AddAuthentication(options=> {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options => {
     options.Authority = $"https://{builder.Configuration["Auth0:Domain"]}/";
-    options.Audience = builder.Configuration["Auth0:Audience"];
+    options.Audience = $"{builder.Configuration["Auth0:Audience"]}/";
 });
 
 // Add services to the container.
