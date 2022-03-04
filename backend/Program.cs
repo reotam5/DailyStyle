@@ -62,7 +62,9 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope()) {
     var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<DailyStyleDBContext>();    
+    var context = services.GetRequiredService<DailyStyleDBContext>();   
+
+    context.Database.Migrate(); 
     
     Clothing c1 = new Clothing(){
         Title = "T-shirt",
@@ -89,8 +91,6 @@ using (var scope = app.Services.CreateScope()) {
         }
     );
     context.SaveChanges();
-    
-    context.Database.Migrate();
 }
 
 app.Run();
