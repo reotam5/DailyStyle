@@ -1,9 +1,4 @@
 #nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
@@ -56,6 +51,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Clothing>>> GetClothings()
         {
+            return await _context.Clothings.ToListAsync();
             return await _context.Clothings.Where(c=>c.UserId == this.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToListAsync();
         }
 
