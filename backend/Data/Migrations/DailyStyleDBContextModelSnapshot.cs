@@ -32,12 +32,13 @@ namespace backend.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool?>("isFavorite")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Clothings");
                 });
@@ -59,132 +60,52 @@ namespace backend.Data.Migrations
                     b.ToTable("ClothingImage");
                 });
 
-            modelBuilder.Entity("backend.Models.ClothingTag", b =>
-                {
-                    b.Property<int>("ClothingId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ClothingId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("ClothingTags");
-                });
-
             modelBuilder.Entity("backend.Models.Tag", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("backend.Models.User", b =>
+            modelBuilder.Entity("ClothingTag", b =>
                 {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ClothingsId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("TagsId")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.HasKey("ClothingsId", "TagsId");
 
-                    b.Property<string>("Token")
-                        .HasColumnType("TEXT");
+                    b.HasIndex("TagsId");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Password = "pass",
-                            UserName = "admin"
-                        });
+                    b.ToTable("ClothingTag");
                 });
 
-            modelBuilder.Entity("backend.Models.Clothing", b =>
+            modelBuilder.Entity("ClothingTag", b =>
                 {
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany("Clothings")
-                        .HasForeignKey("UserId")
+                    b.HasOne("backend.Models.Clothing", null)
+                        .WithMany()
+                        .HasForeignKey("ClothingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("backend.Models.ClothingTag", b =>
-                {
-                    b.HasOne("backend.Models.Clothing", "Clothing")
-                        .WithMany("ClothingTags")
-                        .HasForeignKey("ClothingId")
+                    b.HasOne("backend.Models.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("backend.Models.Tag", "Tag")
-                        .WithMany("ClothingTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Clothing");
-
-                    b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("backend.Models.Tag", b =>
-                {
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany("Tags")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("backend.Models.Clothing", b =>
-                {
-                    b.Navigation("ClothingTags");
-                });
-
-            modelBuilder.Entity("backend.Models.Tag", b =>
-                {
-                    b.Navigation("ClothingTags");
-                });
-
-            modelBuilder.Entity("backend.Models.User", b =>
-                {
-                    b.Navigation("Clothings");
-
-                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

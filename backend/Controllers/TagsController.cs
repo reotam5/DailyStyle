@@ -1,17 +1,15 @@
 #nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using Microsoft.AspNetCore.Cors;
+using System.Security.Claims;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     public class TagsController : ControllerBase
     {
@@ -22,11 +20,30 @@ namespace backend.Controllers
             _context = context;
         }
 
+        // POST: api/Tags
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Tag>> PostTag(Dictionary<String, String> requestBody)
+        {
+            requestBody.TryGetValue("Title", out string Title);
+
+            Tag tag = new Tag
+            {
+                Title = Title,
+                UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value
+            };
+
+            _context.Tags.Add(tag);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetTag", new { id = tag.Id }, tag);
+        }
+
         // GET: api/Tags
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tag>>> GetTags()
         {
-            return await _context.Tags.ToListAsync();
+            return await _context.Tags.Where(c => c.UserId == this.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToListAsync();
         }
 
         // GET: api/Tags/5
@@ -72,17 +89,6 @@ namespace backend.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Tags
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Tag>> PostTag(Tag tag)
-        {
-            _context.Tags.Add(tag);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTag", new { id = tag.Id }, tag);
         }
 
         // DELETE: api/Tags/5
