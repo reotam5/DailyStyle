@@ -16,6 +16,11 @@ function AddClothes() {
   const [selectedTags, setSelectedTags] = useState([]);
   const postClothings = async (e) => {
     e.preventDefault();
+
+    let base64 = await convertBase64(fileState);
+    let imageType = base64.split(",")[0];
+    let image = base64.split(",")[1];
+
     try {
       const token = await getAccessTokenSilently();
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -23,7 +28,8 @@ function AddClothes() {
         .post("/api/clothings", {
           Title: [document.getElementById("title").value],
           Description: [document.getElementById("description").value],
-          Image: [document.getElementById("image").value],
+          Image: [image],
+          ImageType: [imageType],
           Tags: selectedTags,
         })
         .then((response) => {
@@ -41,6 +47,7 @@ function AddClothes() {
   const postTag = async (e) => {
     var tag = document.getElementById("tag").value;
     e.preventDefault();
+
     try {
       const token = await getAccessTokenSilently();
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -87,7 +94,24 @@ function AddClothes() {
     } else {
       setSelectedTags(selectedTags.filter((tag) => tag !== e.target.value));
     }
-  }
+  };
+
+  const [fileState, setFileImage] = useState(null);
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+  
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+  
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   return (
     <>
@@ -97,6 +121,7 @@ function AddClothes() {
           <input type="text" placeholder="title" id="title" />
           <input type="text" placeholder="description" id="description" />
           <input type="text" placeholder="image" id="image" />
+          <input type="file" onChange={(event)=>{setFileImage(event.target.files[0]);}} />
           <fieldset id="tags">
             <legend>Tags</legend>
             {tags.map((tag) => (
@@ -124,6 +149,7 @@ function AddClothes() {
     </>
   );
 }
+
 
 export default withAuthenticationRequired(AddClothes, {
   onRedirecting: () => <Login />,

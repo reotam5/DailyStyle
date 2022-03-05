@@ -19,6 +19,8 @@ public class Clothing
 
     public bool? isFavorite { get; set; }
 
+    public string? ImageType {get; set;}
+
     public byte[]? Image { get; set; }
 
     public ICollection<Tag>? Tags { get; set; }

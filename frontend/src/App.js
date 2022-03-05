@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import TestingPage from "./components/AddNewClothes";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Drawer from "./components/Drawer";
@@ -24,7 +23,6 @@ function App() {
         <Route path="/AddClothes" element={<AddNewClothes/>} />
         <Route path="/ListClothes" element={<ListClothes/>} />
         <Route path="/EditCloth" element={<EditCloth/>} />
-        <Route path="/TestingPage" element={<TestingPage/>} />
       </Routes>
     </div>
   );
