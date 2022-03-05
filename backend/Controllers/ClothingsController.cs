@@ -6,6 +6,10 @@ using backend.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
 
 namespace backend.Controllers
 {
@@ -30,6 +34,7 @@ namespace backend.Controllers
         {
             requestBody.TryGetValue("Title", out String[] Title);
             requestBody.TryGetValue("Description", out String[] Description);
+            requestBody.TryGetValue("ImageType", out String[] ImageType);
             requestBody.TryGetValue("Image", out String[] Image);
             requestBody.TryGetValue("Tags", out String[] sTags);
 
@@ -39,6 +44,7 @@ namespace backend.Controllers
                 Title = Title[0],
                 Description = Description[0],
                 Image = Convert.FromBase64String(Image[0]),
+                ImageType = ImageType[0],
                 UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value
             };
 
@@ -48,10 +54,7 @@ namespace backend.Controllers
                 {
                     int Tagid = Int32.Parse(TagId);
                     Tag tag = await _context.Tags.FindAsync(Tagid);
-                    if (clothing.Tags == null)
-                    {
-                        clothing.Tags = new List<Tag>();
-                    }
+                    clothing.Tags = new Collection<Tag> ();
                     clothing.Tags.Add(tag);
                 }
                 catch (FormatException)
