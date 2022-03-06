@@ -18,9 +18,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Switch from "@mui/material/Switch";
 import HomeIcon from "@mui/icons-material/Home";
 import { styled } from "@mui/material/styles";
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
 import { useState } from "react";
 import Favorite from "@mui/icons-material/Favorite";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
@@ -73,7 +71,7 @@ export default function CustomDrawer({setTheme}) {
             Daily Style
           </Typography>
           <FormControlLabel
-            control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
+            control={<MaterialUISwitch sx={{ m: 1 }} />}
             label=""
             onChange={(e) => {
               handleToggleTheme();

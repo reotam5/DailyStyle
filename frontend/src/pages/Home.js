@@ -18,7 +18,6 @@ function Home() {
       ) : (
         <div>
           <p>You are not logged in</p>
-          <button onClick={()=>{navigate("/login")}}>Click here</button>
         </div>
       )}
     </div>

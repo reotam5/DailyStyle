@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { green, indigo } from "@mui/material/colors";
+import { indigo } from "@mui/material/colors";
 
 export const isDevelopment =
   !process.env.NODE_ENV || process.env.NODE_ENV === "development";
@@ -10,11 +10,11 @@ export const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "##000000",
+      main: "#000000",
     },
     secondary: {
       main: "#ffffff",
-    },
+    }
   },
 });
 export const lightTheme = createTheme({

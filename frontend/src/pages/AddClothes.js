@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import Login from "./Login";
 import { toast } from "react-toastify";
 import { baseUrl } from "../lib/constant";
 import { useNavigate } from "react-router";
-import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import Home from "./Home";
 
 function AddClothes() {
   const navigation = useNavigate();
@@ -51,7 +50,7 @@ function AddClothes() {
     try {
       const token = await getAccessTokenSilently();
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = await axios
+      await axios
         .post("/api/tags", {
           Title: tag,
         })
@@ -152,5 +151,5 @@ function AddClothes() {
 
 
 export default withAuthenticationRequired(AddClothes, {
-  onRedirecting: () => <Login />,
+  onRedirecting: () => <Home />,
 });

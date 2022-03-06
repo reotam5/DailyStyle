@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { baseUrl } from "../lib/constant";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
-import Login from "./Login";
-import ListItem from "../components/ListItem";
+import CustomCard from "../components/CustomCard";
+import Home from "./Home";
 
 function ListClothes() {
   axios.defaults.baseURL = baseUrl;
@@ -13,9 +13,6 @@ function ListClothes() {
 
   const [clothes, setClothes] = useState([]);
 
-  useEffect(() => {
-    console.log(clothes);
-  }, [clothes]);
   const getClothings = async () => {
     try {
       const token = await getAccessTokenSilently();
@@ -24,7 +21,6 @@ function ListClothes() {
         .get("/api/clothings")
         .then((response) => {
           setClothes([...clothes, ...response.data]);
-          console.log(clothes);
         })
         .catch((error) => {
           toast.error(error.message);
@@ -39,17 +35,14 @@ function ListClothes() {
   return clothes == null ? (
     <div>Loading</div>
   ) : (
-    <div>
-      <h1>list of clothes</h1>
+    <div className="mt-4 mx-4 flex flex-wrap gap-4 justify-center">
       {clothes.map((cloth) => (
-        <ListItem key={cloth.id} cloth={cloth} />
+        <CustomCard key={cloth.id} cloth={cloth} />
       ))}
     </div>
   );
 }
 
-
-
 export default withAuthenticationRequired(ListClothes, {
-  onRedirecting: () => <Login />,
+  onRedirecting: () => <Home />,
 });

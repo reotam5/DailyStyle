@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { baseUrl } from "../lib/constant";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
-import Login from "./Login";
-import ListItem from "../components/ListItem";
+import CustomCard from "../components/CustomCard";
+import Home from "./Home";
 
 function Favourites() {
   axios.defaults.baseURL = baseUrl;
@@ -39,18 +39,14 @@ function Favourites() {
   return clothes == null ? (
     <div>Loading</div>
   ) : (
-    <div>
-      <h1>list of clothes</h1>
+    <div className="mt-4 mx-4 flex flex-wrap gap-4 justify-center">
       {clothes.map((cloth) => (
-        <ListItem
-          key={cloth.id}
-          cloth={cloth}
-        />
+        <CustomCard key={cloth.id} cloth={cloth} />
       ))}
     </div>
   );
 }
 
 export default withAuthenticationRequired(Favourites, {
-  onRedirecting: () => <Login />,
+  onRedirecting: () => <Home />,
 });

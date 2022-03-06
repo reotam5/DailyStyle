@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
 import Drawer from "./components/CustomDrawer";
 import Favourite from "./pages/Favourites";
 import EditCloth from "./pages/EditCloth";
@@ -22,17 +21,17 @@ function App() {
   const toggleTheme = () => {
     setTheme(theme.palette.mode === "light" ? darkTheme : lightTheme);
   };
+  document.body.style = "background-color: " + theme.palette.background.default;
   return (
     <ThemeProvider theme={theme}>
       <ToastContainer />
       <Drawer toggleTheme={toggleTheme} setTheme={setTheme}/>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/Favourites" element={<Favourite/>} />
         <Route path="/AddClothes" element={<AddNewClothes/>} />
         <Route path="/ListClothes" element={<ListClothes/>} />
-        <Route path="/EditCloth" element={<EditCloth/>} />
+        <Route path="/EditCloth/:id" element={<EditCloth/>} />
       </Routes>
     </ThemeProvider>
   );
