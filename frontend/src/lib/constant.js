@@ -1,2 +1,30 @@
-export const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
-export const baseUrl = isDevelopment ? process.env.REACT_APP_LOCAL_BASE_URL : process.env.REACT_APP_PRODUCTION_BASE_URL;
+import { createTheme } from "@mui/material";
+import { green, indigo } from "@mui/material/colors";
+
+export const isDevelopment =
+  !process.env.NODE_ENV || process.env.NODE_ENV === "development";
+export const baseUrl = isDevelopment
+  ? process.env.REACT_APP_LOCAL_BASE_URL
+  : process.env.REACT_APP_PRODUCTION_BASE_URL;
+export const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "##000000",
+    },
+    secondary: {
+      main: "#ffffff",
+    },
+  },
+});
+export const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+    primary: {
+      main: indigo[400],
+    },
+    secondary: {
+      main: "#ffffff",
+    },
+  },
+});
