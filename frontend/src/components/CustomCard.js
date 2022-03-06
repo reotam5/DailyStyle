@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useEffect, useState} from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -23,6 +23,10 @@ export default function CustomCard({ cloth }) {
     cloth.tags,
     cloth.isFavorite,
   ];
+
+  useEffect(() => {
+    console.log(cloth);
+    }, [cloth]);
 
   const { getAccessTokenSilently } = useAuth0();
   const [isFavoriteState, setIsFavoriteState] = useState(isFavorite);

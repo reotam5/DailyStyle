@@ -48,13 +48,13 @@ namespace backend.Controllers
                 UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value
             };
 
+            clothing.Tags = new Collection<Tag>();
             foreach (String TagId in sTags)
             {
                 try
                 {
                     int Tagid = Int32.Parse(TagId);
                     Tag tag = await _context.Tags.FindAsync(Tagid);
-                    clothing.Tags = new Collection<Tag> ();
                     clothing.Tags.Add(tag);
                 }
                 catch (FormatException)
