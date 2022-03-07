@@ -17,8 +17,11 @@ public class Clothing
 
     public string? Description { get; set; }
 
+    public bool? isFavorite { get; set; }
+
+    public string? ImageType {get; set;}
+
     public byte[]? Image { get; set; }
 
-    [JsonIgnore]
-    public ICollection<ClothingTag>? ClothingTags { get; set; }
+    public ICollection<Tag>? Tags { get; set; }
 }

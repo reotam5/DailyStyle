@@ -6,6 +6,10 @@ using backend.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
 
 namespace backend.Controllers
 {
@@ -26,18 +30,38 @@ namespace backend.Controllers
 
         // POST: api/Clothings
         [HttpPost]
-        public async Task<ActionResult<Clothing>> PostClothing(Dictionary<String, String> requestBody)
+        public async Task<ActionResult<Clothing>> PostClothing(Dictionary<String, String[]> requestBody)
         {
-            requestBody.TryGetValue("Title", out string Title);
-            requestBody.TryGetValue("Description", out string Description);
-            requestBody.TryGetValue("Image", out string Image);
+            requestBody.TryGetValue("Title", out String[] Title);
+            requestBody.TryGetValue("Description", out String[] Description);
+            requestBody.TryGetValue("ImageType", out String[] ImageType);
+            requestBody.TryGetValue("Image", out String[] Image);
+            requestBody.TryGetValue("Tags", out String[] sTags);
 
-            Clothing clothing = new Clothing();
-            clothing.UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            clothing.Title = Title;
-            clothing.Description = Description;
-            clothing.Image = Convert.FromBase64String(Image);
 
+            Clothing clothing = new Clothing
+            {
+                Title = Title[0],
+                Description = Description[0],
+                Image = Convert.FromBase64String(Image[0]),
+                ImageType = ImageType[0],
+                UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value
+            };
+
+            clothing.Tags = new Collection<Tag>();
+            foreach (String TagId in sTags)
+            {
+                try
+                {
+                    int Tagid = Int32.Parse(TagId);
+                    Tag tag = await _context.Tags.FindAsync(Tagid);
+                    clothing.Tags.Add(tag);
+                }
+                catch (FormatException)
+                {
+                    return BadRequest();
+                }
+            }
 
             _context.Clothings.Add(clothing);
             await _context.SaveChangesAsync();
@@ -51,7 +75,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Clothing>>> GetClothings()
         {
-            return await _context.Clothings.Where(c=>c.UserId == this.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToListAsync();
+            return await _context.Clothings.Where(c => c.UserId == this.User.FindFirst(ClaimTypes.NameIdentifier).Value).Include(c=>c.Tags).ToListAsync();
         }
 
         // GET: api/Clothings/5
@@ -110,6 +134,50 @@ namespace backend.Controllers
             }
 
             return NoContent();
+        }
+
+        // GET: api/Clothings/fav
+        [HttpGet("fav")]
+        public async Task<ActionResult<IEnumerable<Clothing>>> GetFavClothings()
+        {
+            return await _context.Clothings.Where(c => c.UserId == this.User.FindFirst(ClaimTypes.NameIdentifier).Value && c.isFavorite == true).Include(c => c.Tags).ToListAsync();
+        }
+
+        // PUT: api/Clothings/fav/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("fav/{id}")]
+        public async Task<IActionResult> PutClothing(int? id, Dictionary<String, bool> requestBody)
+        {
+            var oldClothing = await _context.Clothings.FindAsync(id);
+
+            //if this clothing does not belong to the user, return a 404
+            if (oldClothing == null || oldClothing.UserId != this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
+            {
+                return NotFound();
+            }
+
+            requestBody.TryGetValue("isFavorite", out bool isFavorite);
+
+            oldClothing.isFavorite = isFavorite;
+
+            try
+            {
+                _context.Clothings.Update(oldClothing);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ClothingExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();  
         }
 
 
