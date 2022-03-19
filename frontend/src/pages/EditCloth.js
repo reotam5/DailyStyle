@@ -38,6 +38,7 @@ function EditCloth() {
         loadClothImage(response);
         loadTitle(response);
         loadDescription(response);
+        //console.log(response);
       })
     } catch (error) {
       toast.error(error.message);
@@ -66,7 +67,7 @@ function EditCloth() {
   }, [""]);
 
   const [base64, setBase64] = useState(null);
-  const postClothings = async (e) => {
+  const putClothings = async (e) => {
     e.preventDefault();
     let imageType = "";
     let image = "";
@@ -78,9 +79,9 @@ function EditCloth() {
     try {
       const token = await getAccessTokenSilently();
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      console.log(selectedTags.map((t) => t.id));
+      //console.log(selectedTags.map((t) => t.id));
       const response = await axios
-        .post("/api/clothings", {
+        .put(`/api/clothings/${id}`, {
           Title: [document.getElementById("title").value],
           Description: [document.getElementById("description").value],
           Image: [image],
@@ -88,8 +89,8 @@ function EditCloth() {
           Tags: selectedTags.map((t) => t.id),
         })
         .then((response) => {
-          navigation("/ListClothes");
-          toast.success("Clothing added successfully");
+          navigation(`/EditCloth/${id}`);
+          toast.success("Clothing edited successfully");
         })
         .catch((error) => {
           toast.error(error.message);
@@ -177,7 +178,7 @@ function EditCloth() {
             style={{ margin: "auto auto" }}
           />
         )}
-        <form onSubmit={postClothings}>
+        <form onSubmit={putClothings}>
           <FormControl fullWidth margin="normal">
             <label htmlFor="icon-button-file">
               <Input
@@ -198,7 +199,7 @@ function EditCloth() {
                 startIcon={<PhotoCamera />}
                 fullWidth
               >
-                Upload
+                Edit Image
               </Button>
             </label>
             <TextField
@@ -251,7 +252,7 @@ function EditCloth() {
               )}
             />
             <Button variant="contained" type="submit">
-              Add
+              Edit
             </Button>
           </FormControl>
         </form>

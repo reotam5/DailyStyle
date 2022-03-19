@@ -97,7 +97,7 @@ namespace backend.Controllers
         // PUT: api/Clothings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClothing(int? id, Dictionary<String, String> requestBody)
+        public async Task<IActionResult> PutClothing(int? id, Dictionary<String, String[]> requestBody)
         {
             var oldClothing = await _context.Clothings.FindAsync(id);
 
@@ -107,14 +107,17 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            requestBody.TryGetValue("Title", out string Title);
-            requestBody.TryGetValue("Description", out string Description);
-            requestBody.TryGetValue("Image", out string Image);
+            requestBody.TryGetValue("Title", out String[] Title);
+            requestBody.TryGetValue("Description", out String[] Description);
+            requestBody.TryGetValue("ImageType", out String[] ImageType);
+            requestBody.TryGetValue("Image", out String[] Image);
+            requestBody.TryGetValue("Tags", out String[] sTags);
 
 
-            oldClothing.Title = Title;
-            oldClothing.Description = Description;
-            oldClothing.Image = Convert.FromBase64String(Image);
+            oldClothing.Title = Title[0];
+            oldClothing.Description = Description[0];
+            oldClothing.Image = Convert.FromBase64String(Image[0]);
+            oldClothing.ImageType = ImageType[0];
 
             try
             {
