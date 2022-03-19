@@ -4,7 +4,6 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
 import { baseUrl } from "../lib/constant";
 import { useNavigate } from "react-router";
-import Home from "./Home";
 import {
   Autocomplete,
   Box,
@@ -12,7 +11,6 @@ import {
   Container,
   Divider,
   FormControl,
-  IconButton,
   Input,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -28,6 +26,10 @@ function EditCloth() {
 
   const location = useLocation();
   const id = location.pathname.split("/").pop();
+
+  useEffect(() => {
+    getClothings();
+  }, [""]);
 
   const getClothings = async (e) => {
     try {
@@ -61,10 +63,6 @@ function EditCloth() {
     let description = response.data.description;
     document.getElementById("description").value = description;
   }
-
-  useEffect(() => {
-    getClothings();
-  }, [""]);
 
   const [base64, setBase64] = useState(null);
   const putClothings = async (e) => {
