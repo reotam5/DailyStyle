@@ -36,6 +36,8 @@ function EditCloth() {
       const response = await axios.get(`/api/clothings/${id}`)
       .then((response) => {
         loadClothImage(response);
+        loadTitle(response);
+        loadDescription(response);
       })
     } catch (error) {
       toast.error(error.message);
@@ -47,6 +49,16 @@ function EditCloth() {
     let image = response.data.image;
     let imageComplete = imageType + "," + image;
     setBase64(imageComplete);
+  }
+
+  const loadTitle = (response) => {
+    let title = response.data.title;
+    document.getElementById("title").value = title;
+  }
+
+  const loadDescription = (response) => {
+    let description = response.data.description;
+    document.getElementById("description").value = description;
   }
 
   useEffect(() => {
@@ -195,12 +207,14 @@ function EditCloth() {
               id="title"
               label="Title"
               variant="outlined"
+              focused
             />
             <TextField
               margin="dense"
               id="description"
               label="Description"
               variant="outlined"
+              focused
             />
             <Autocomplete
               multiple
