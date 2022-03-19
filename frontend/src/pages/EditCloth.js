@@ -35,11 +35,18 @@ function EditCloth() {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axios.get(`/api/clothings/${id}`)
       .then((response) => {
-        console.log(response);
+        loadClothImage(response);
       })
     } catch (error) {
       toast.error(error.message);
     }
+  }
+
+  const loadClothImage = (response) => {
+    let imageType = response.data.imageType;
+    let image = response.data.image;
+    let imageComplete = imageType + "," + image;
+    setBase64(imageComplete);
   }
 
   useEffect(() => {
