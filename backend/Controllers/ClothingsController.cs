@@ -82,7 +82,7 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Clothing>> GetClothing(int? id)
         {
-            var clothing = await _context.Clothings.FindAsync(id);
+            var clothing = await _context.Clothings.Where(c => c.Id == id).Include(c=>c.Tags).FirstAsync();
 
             //if this clothing does not belong to the user, return a 404
             if (clothing == null || clothing.UserId != this.User.FindFirst(ClaimTypes.NameIdentifier).Value)

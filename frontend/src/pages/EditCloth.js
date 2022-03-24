@@ -40,7 +40,8 @@ function EditCloth() {
         loadClothImage(response);
         loadTitle(response);
         loadDescription(response);
-        //console.log(response);
+        loadTags(response);
+        // console.log(response);
       })
     } catch (error) {
       toast.error(error.message);
@@ -62,6 +63,11 @@ function EditCloth() {
   const loadDescription = (response) => {
     let description = response.data.description;
     document.getElementById("description").value = description;
+  }
+
+  const loadTags = (response) => {
+    let tag = response.data.tags;
+    tag.forEach( (tag) => document.getElementById("tagsInput").value += tag.title + " ");
   }
 
   const [base64, setBase64] = useState(null);
@@ -216,6 +222,7 @@ function EditCloth() {
               focused
             />
             <Autocomplete
+              id="tagsInput"
               multiple
               open={isTagInputOpen}
               onOpen={() => {
@@ -233,6 +240,7 @@ function EditCloth() {
               loading={loading}
               renderInput={(params) => (
                 <TextField
+                  focused
                   {...params}
                   label="Tags"
                   InputProps={{
