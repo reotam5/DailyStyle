@@ -12,7 +12,6 @@ function ListClothes() {
   const { getAccessTokenSilently } = useAuth0();
 
   const [clothes, setClothes] = useState([]);
-
   const getClothings = async () => {
     try {
       const token = await getAccessTokenSilently();
