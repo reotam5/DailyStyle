@@ -212,14 +212,14 @@ function EditCloth() {
               id="title"
               label="Title"
               variant="outlined"
-              focused
+              InputLabelProps={{shrink:true}}
             />
             <TextField
               margin="dense"
               id="description"
               label="Description"
               variant="outlined"
-              focused
+              InputLabelProps={{shrink:true}}
             />
             <Autocomplete
               id="tagsInput"
@@ -240,7 +240,6 @@ function EditCloth() {
               loading={loading}
               renderInput={(params) => (
                 <TextField
-                  focused
                   {...params}
                   label="Tags"
                   InputProps={{
@@ -254,6 +253,7 @@ function EditCloth() {
                       </>
                     ),
                   }}
+                  InputLabelProps={{shrink:true}}
                 />
               )}
             />
