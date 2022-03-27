@@ -65,9 +65,11 @@ function EditCloth() {
     document.getElementById("description").value = description;
   }
 
+  const [defaultTags, setDefaultTags] = useState({});
   const loadTags = (response) => {
     let tag = response.data.tags;
-    tag.forEach( (tag) => document.getElementById("tagsInput").value += tag.title + " ");
+    // tag.forEach( (tag) => document.getElementById("tagsInput").value += tag.title + " ");
+    setDefaultTags(tag);
   }
 
   const [base64, setBase64] = useState(null);
@@ -234,6 +236,7 @@ function EditCloth() {
               onChange={(event, value) => {
                 setSelectedTags(value);
               }}
+              value = {defaultTags}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               getOptionLabel={(option) => option.title}
               options={tags}
