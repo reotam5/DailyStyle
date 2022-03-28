@@ -10,22 +10,26 @@ Console.WriteLine("Hello World!");
 Console.WriteLine($"https://{builder.Configuration["Auth0:Domain"]}/");
 Console.WriteLine($"{builder.Configuration["Auth0:Audience"]}/");
 
-builder.Services.AddAuthentication(options=> {
+builder.Services.AddAuthentication(options =>
+{
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options => {
+}).AddJwtBearer(options =>
+{
     options.Authority = $"https://{builder.Configuration["Auth0:Domain"]}/";
     options.Audience = $"{builder.Configuration["Auth0:Audience"]}/";
 });
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DailyStyleDBContext>(option=>{
+builder.Services.AddDbContext<DailyStyleDBContext>(option =>
+{
     option.UseSqlite(connectionString);
 });
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddNewtonsoftJson(options=>{
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
@@ -33,8 +37,10 @@ builder.Services.AddControllers().AddNewtonsoftJson(options=>{
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors(option => {
-    option.AddPolicy("CorsPolicy", p => {
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("CorsPolicy", p =>
+    {
         p.AllowAnyOrigin();
         p.AllowAnyMethod();
         p.AllowAnyHeader();
@@ -71,40 +77,21 @@ try
         fi.Delete();
     }
 }
-catch(Exception ex)
+catch (Exception ex)
 {
     fi.Delete();
 }
 
-using (var scope = app.Services.CreateScope()) {
+using (var scope = app.Services.CreateScope())
+{
     var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<DailyStyleDBContext>();   
-    context.Database.Migrate(); 
-    
-    Clothing c1 = new Clothing(){
-        Title = "T-shirt",
-        Description = "A T-shirt",
-        UserId = "dummy",
-    };
+    var context = services.GetRequiredService<DailyStyleDBContext>();
+    context.Database.Migrate();
 
-    Clothing c2 = new Clothing(){
-        Title = "Jeans",
-        Description = "A pair of jeans",
-        UserId = "dummy",
-    };
-
+    //seeding the data
     context.AddRange(
-        new Tag() {
-            Title = "shirt",
-            Clothings = new List<Clothing>() { c1 },
-            UserId = "dummy",
-        },
-        new Tag() {
-            Title = "pants",
-            Clothings = new List<Clothing>() { c2 },
-            UserId = "dummy",
-        }
+        SampleData.GetClothings()
     );
     context.SaveChanges();
 }
