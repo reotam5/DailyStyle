@@ -82,14 +82,13 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Clothing>> GetClothing(int? id)
         {
-            var clothing = await _context.Clothings.FindAsync(id);
+            var clothing = await _context.Clothings.Where(c => c.Id == id).Include(c=>c.Tags).FirstAsync();
 
             //if this clothing does not belong to the user, return a 404
             if (clothing == null || clothing.UserId != this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
             {
                 return NotFound();
             }
-
             return clothing;
         }
 
@@ -97,8 +96,9 @@ namespace backend.Controllers
         // PUT: api/Clothings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClothing(int? id, Dictionary<String, String> requestBody)
+        public async Task<IActionResult> PutClothing(int? id, Dictionary<String, String[]> requestBody)
         {
+
             var oldClothing = await _context.Clothings.FindAsync(id);
 
             //if this clothing does not belong to the user, return a 404
@@ -107,24 +107,49 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            requestBody.TryGetValue("Title", out string Title);
-            requestBody.TryGetValue("Description", out string Description);
-            requestBody.TryGetValue("Image", out string Image);
+            requestBody.TryGetValue("Title", out String[] Title);
+            requestBody.TryGetValue("Description", out String[] Description);
+            requestBody.TryGetValue("ImageType", out String[] ImageType);
+            requestBody.TryGetValue("Image", out String[] Image);
+            requestBody.TryGetValue("Tags", out String[] sTags);
 
+            _context.Remove(oldClothing);
+            await _context.SaveChangesAsync();
 
-            oldClothing.Title = Title;
-            oldClothing.Description = Description;
-            oldClothing.Image = Convert.FromBase64String(Image);
+            Clothing clothing = new Clothing
+            {
+                Title = Title[0],
+                Description = Description[0],
+                Image = Convert.FromBase64String(Image[0]),
+                ImageType = ImageType[0],
+                UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value
+            };
+
+            clothing.Tags = new Collection<Tag>();
+            foreach (String TagId in sTags)
+            {
+                try
+                {
+                    int Tagid = Int32.Parse(TagId);
+                    Tag tag = await _context.Tags.FindAsync(Tagid);
+                    clothing.Tags.Add(tag);
+                }
+                catch (FormatException)
+                {
+                    return BadRequest();
+                }
+            }
 
             try
             {
-                _context.Clothings.Update(oldClothing);
+                _context.Clothings.Add(clothing);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!ClothingExists(id))
                 {
+                    Console.WriteLine("Clothing does not exist!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     return NotFound();
                 }
                 else
