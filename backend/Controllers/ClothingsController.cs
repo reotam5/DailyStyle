@@ -89,7 +89,6 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
-
             return clothing;
         }
 
@@ -99,6 +98,7 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClothing(int? id, Dictionary<String, String[]> requestBody)
         {
+
             var oldClothing = await _context.Clothings.FindAsync(id);
 
             //if this clothing does not belong to the user, return a 404
@@ -113,21 +113,43 @@ namespace backend.Controllers
             requestBody.TryGetValue("Image", out String[] Image);
             requestBody.TryGetValue("Tags", out String[] sTags);
 
+            _context.Remove(oldClothing);
+            await _context.SaveChangesAsync();
 
-            oldClothing.Title = Title[0];
-            oldClothing.Description = Description[0];
-            oldClothing.Image = Convert.FromBase64String(Image[0]);
-            oldClothing.ImageType = ImageType[0];
+            Clothing clothing = new Clothing
+            {
+                Title = Title[0],
+                Description = Description[0],
+                Image = Convert.FromBase64String(Image[0]),
+                ImageType = ImageType[0],
+                UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value
+            };
+
+            clothing.Tags = new Collection<Tag>();
+            foreach (String TagId in sTags)
+            {
+                try
+                {
+                    int Tagid = Int32.Parse(TagId);
+                    Tag tag = await _context.Tags.FindAsync(Tagid);
+                    clothing.Tags.Add(tag);
+                }
+                catch (FormatException)
+                {
+                    return BadRequest();
+                }
+            }
 
             try
             {
-                _context.Clothings.Update(oldClothing);
+                _context.Clothings.Add(clothing);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!ClothingExists(id))
                 {
+                    Console.WriteLine("Clothing does not exist!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     return NotFound();
                 }
                 else
