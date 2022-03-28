@@ -90,9 +90,9 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate();
 
     //seeding the data
-    context.AddRange(
-        SampleData.GetClothings()
-    );
+    // context.AddRange(
+    //     SampleData.GetClothings()
+    // );
     context.SaveChanges();
 }
 
