@@ -32,6 +32,7 @@ function App() {
         <Route path="/AddClothes" element={<AddNewClothes/>} />
         <Route path="/ListClothes" element={<ListClothes/>} />
         <Route path="/EditCloth/:id" element={<EditCloth/>} />
+        <Route path="/EditCloth" element={<EditCloth/>} />
       </Routes>
     </ThemeProvider>
   );

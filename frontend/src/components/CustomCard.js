@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActions, CardActionArea, Button } from "@mui/material";
+import { CardActions, CardActionArea, Button, Chip } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import { pink } from "@mui/material/colors";
@@ -72,6 +72,13 @@ export default function CustomCard({ cloth }) {
           <Typography variant="body2" color="text.secondary">
             {description}
           </Typography>
+          {
+            cloth.tags && cloth.tags.map((tag) => {
+              return (
+                <Chip label={tag.title}/>
+              )
+            })
+          }
         </CardContent>
       </CardActionArea>
       <CardActions>

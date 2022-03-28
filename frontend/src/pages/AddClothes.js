@@ -38,7 +38,6 @@ function AddClothes() {
     try {
       const token = await getAccessTokenSilently();
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      console.log(selectedTags.map((t) => t.id));
       const response = await axios
         .post("/api/clothings", {
           Title: [document.getElementById("title").value],
@@ -60,7 +59,6 @@ function AddClothes() {
   };
 
   const postTag = async (e) => {
-    console.log("asdf");
     var tag = document.getElementById("tag").value;
     e.preventDefault();
 
