@@ -6,9 +6,6 @@ using backend.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
 using System.Collections.ObjectModel;
 
 namespace backend.Controllers
@@ -25,6 +22,41 @@ namespace backend.Controllers
         public ClothingsController(DailyStyleDBContext context)
         {
             _context = context;
+        }
+        
+        // PUT: api/Clothings/random
+        [HttpPut("random")]
+        public async Task<ActionResult<IEnumerable<Clothing>>> GetRandomClothings(Dictionary<String, String[]> requestBody)
+        {
+            requestBody.TryGetValue("Tags", out String[] sTags);
+            Collection<Clothing> clothings = new Collection<Clothing>();
+            foreach (String TagId in sTags)
+            {
+                try
+                {
+                    int Tagid = Int32.Parse(TagId);
+                    Tag tag = await _context.Tags.Include(i => i.Clothings).Where(i => i.Id == Tagid).FirstAsync();
+                    Console.WriteLine("Tag: " + tag.Title);
+                    Console.WriteLine("Clothings: " + tag.Clothings.First().Title);
+                    int randomIndex = new Random().Next(0, tag.Clothings.Count);
+                    int currentIntex = 0;
+                    foreach (Clothing clothing in tag.Clothings)
+                    {
+                        if (currentIntex == randomIndex)
+                        {
+                            clothings.Add(clothing);
+                            break;
+                        }
+                        currentIntex++;
+                    }
+                }
+                catch (FormatException)
+                {
+                    return BadRequest();
+                }
+            }
+
+            return clothings;
         }
 
 

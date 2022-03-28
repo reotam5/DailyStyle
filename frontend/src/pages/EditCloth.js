@@ -80,7 +80,6 @@ function EditCloth() {
         try {
             const token = await getAccessTokenSilently();
             axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-            //console.log(selectedTags.map((t) => t.id));
             const response = await axios
                 .put(`/api/clothings/${id}`, {
                     Title: [document.getElementById("title").value],

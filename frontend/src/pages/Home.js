@@ -1,27 +1,135 @@
 import axios from "axios";
-import { useNavigate  } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { baseUrl } from "../lib/constant";
+import {
+    Box,
+    Button,
+    Chip,
+    Container,
+    Divider,
+    Grid,
+    MenuItem,
+    Select,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import CustomCard from "../components/CustomCard";
 
 function Home() {
-  axios.defaults.baseURL = baseUrl;
-  let navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth0();
-  
-  return (
-    <div>
-      {isAuthenticated ? (
+    axios.defaults.baseURL = baseUrl;
+    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+    const [tags, setTags] = useState([]);
+    const [selectedTags, setSelectedTags] = useState([]);
+    const getTags = async (e) => {
+        try {
+            const token = await getAccessTokenSilently();
+            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+            await axios
+                .get("/api/tags")
+                .then((response) => {
+                    setTags(response.data);
+                })
+                .catch((error) => {
+                    toast.error(error.message);
+                });
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+    useEffect(async () => {
+        if (isAuthenticated) {
+            await getTags();
+        }
+    }, [isAuthenticated]);
+    useEffect(() => {
+        setSelectedTags(tags);
+    }, [tags]);
+
+    const [clothes, setClothes] = useState([]);
+
+    const getClothings = async (e) => {
+      var tagIds = selectedTags.map((tag) => tag.id);
+      const token = await getAccessTokenSilently();
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      await axios
+        .put("/api/clothings/random", {
+            Tags: tagIds,
+        })
+        .then((response) => {
+          setClothes([...response.data]);
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        });
+    }
+
+    return (
         <div>
-          <p>Hello, {user.name}</p>
-          <button onClick={() => navigate("/addclothes")}>Add Clothes</button>
+            {isAuthenticated ? (
+                <div>
+                    <Box sx={{ paddingTop: 1 }}>
+                        <Divider>
+                            <b>Today's Style</b>
+                        </Divider>
+                        <Grid
+                            container
+                            direction="column"
+                            gap={2}
+                            spacing={0}
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <Select
+                                multiple
+                                value={selectedTags}
+                                onChange={(event) => {
+                                    const {
+                                        target: { value },
+                                    } = event;
+                                    setSelectedTags(value);
+                                }}
+                                renderValue={(selected) => (
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            flexWrap: "wrap",
+                                            gap: 0.5,
+                                        }}
+                                    >
+                                        {selected.map((value) => (
+                                            <Chip
+                                                key={value.id}
+                                                label={value.title}
+                                            />
+                                        ))}
+                                    </Box>
+                                )}
+                            >
+                                {tags.map((tag) => {
+                                    return (
+                                        <MenuItem key={tag.id} value={tag}>
+                                            {tag.title}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                            <Button variant="contained" onClick={getClothings}>Generate</Button>
+
+                            {clothes.map((cloth) => (
+                                <CustomCard key={cloth.id} cloth={cloth} />
+                            ))}
+                        </Grid>
+                    </Box>
+                </div>
+            ) : (
+                <div>
+                    <p>Please login first</p>
+                </div>
+            )}
         </div>
-      ) : (
-        <div>
-          <p>You are not logged in</p>
-        </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default Home;
