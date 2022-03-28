@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { baseUrl } from "../lib/constant";
 import { useNavigate } from "react-router";
 import {
-    Autocomplete,
     Box,
     Button,
     Chip,
@@ -32,7 +31,7 @@ function EditCloth() {
 
     useEffect(() => {
         getClothings();
-    }, [""]);
+    }, []);
 
     const getClothings = async (e) => {
         try {
